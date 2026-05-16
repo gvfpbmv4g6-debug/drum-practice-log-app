@@ -66,6 +66,7 @@
       font-family: var(--font);
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+      overflow-x: hidden;
       background:
         radial-gradient(circle at top left, rgba(255, 107, 69, 0.24), transparent 34rem),
         radial-gradient(circle at top right, rgba(30, 215, 96, 0.16), transparent 30rem),
@@ -116,6 +117,7 @@
       width: min(1480px, 100%);
       margin: 0 auto;
       padding: 24px;
+      min-width: 0;
     }
 
     .topbar {
@@ -317,6 +319,7 @@
     }
 
     .card {
+      min-width: 0;
       border: 1px solid var(--border);
       border-radius: var(--radius);
       background: var(--surface);
@@ -818,6 +821,7 @@
     select,
     textarea {
       width: 100%;
+      min-width: 0;
       border: 1px solid var(--border);
       border-radius: 14px;
       min-height: 46px;
@@ -954,9 +958,13 @@
       display: flex;
       align-items: end;
       gap: 8px;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
       min-height: 280px;
       padding: 16px 6px 4px;
       overflow-x: auto;
+      overflow-y: hidden;
       scrollbar-width: thin;
     }
 
@@ -1292,13 +1300,15 @@
     @media (max-width: 720px) {
       .app-shell {
         padding: 12px;
-        padding-bottom: calc(96px + env(safe-area-inset-bottom));
+        padding-bottom: calc(180px + env(safe-area-inset-bottom, 0px));
       }
 
       .topbar {
+        position: sticky;
         margin: -12px -12px 14px;
         padding: 10px 12px;
         gap: 12px;
+        grid-template-columns: minmax(0, 1fr) auto;
       }
 
       .brand-mark {
@@ -1313,18 +1323,18 @@
       }
 
       .nav-tabs {
-        position: fixed;
-        left: 10px;
-        right: 10px;
-        bottom: max(10px, env(safe-area-inset-bottom));
-        z-index: 80;
+        position: static;
+        grid-column: 1 / -1;
+        order: 3;
+        width: 100%;
         justify-content: flex-start;
         gap: 6px;
         padding: 7px;
+        margin-top: 2px;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         border: 1px solid var(--border);
-        border-radius: 24px;
+        border-radius: 22px;
         background: color-mix(in srgb, var(--surface-strong) 92%, transparent);
         box-shadow: var(--shadow);
       }
@@ -1335,6 +1345,11 @@
         min-height: 42px;
         padding-inline: 12px;
         font-size: 0.88rem;
+      }
+
+      .brand-title h1 {
+        white-space: normal;
+        line-height: 1.12;
       }
 
       .top-actions {
@@ -1537,6 +1552,87 @@
         grid-template-columns: 1fr;
         gap: 6px;
       }
+
+      dialog {
+        width: calc(100vw - 22px);
+        max-height: calc(100dvh - 28px);
+        overflow: auto;
+        border-radius: 24px;
+      }
+
+      .dialog-inner {
+        padding: 20px;
+      }
+
+      dialog .form-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      dialog .field.full {
+        grid-column: auto;
+      }
+
+      dialog input,
+      dialog select,
+      dialog textarea {
+        min-height: 54px;
+        font-size: 16px;
+      }
+
+      .dialog-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .dialog-actions button {
+        min-width: 0;
+        min-height: 56px;
+        border-radius: 16px;
+      }
+
+      .section-grid,
+      .stack,
+      .view,
+      main {
+        min-width: 0;
+      }
+
+      #view-analytics .section-grid {
+        gap: 12px;
+      }
+
+      #monthlyChart {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 4px;
+        min-height: 210px;
+        overflow-x: visible;
+        padding-inline: 0;
+      }
+
+      #monthlyChart .bar-col {
+        min-width: 0;
+        height: 205px;
+      }
+
+      #dailyChart {
+        overscroll-behavior-x: contain;
+        padding-bottom: 8px;
+      }
+
+      #dailyChart .bar-col {
+        min-width: 24px;
+      }
+
+      .bar-col {
+        min-width: 28px;
+      }
+
+      .bar-label {
+        font-size: 0.66rem;
+      }
     }
 
     @media (max-width: 430px) {
@@ -1579,6 +1675,30 @@
 
       #view-timer .form-grid {
         gap: 10px;
+      }
+
+      .app-shell {
+        padding-bottom: calc(190px + env(safe-area-inset-bottom, 0px));
+      }
+
+      .dialog-inner {
+        padding: 18px;
+      }
+
+      .dialog-actions {
+        grid-template-columns: 1fr;
+      }
+
+      #monthlyChart {
+        min-height: 190px;
+      }
+
+      #monthlyChart .bar-col {
+        height: 185px;
+      }
+
+      #dailyChart .bar-col {
+        min-width: 22px;
       }
     }
 
